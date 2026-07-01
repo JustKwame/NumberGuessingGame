@@ -7,15 +7,22 @@ COPY . .
 
 # Move into the folder where your pom.xml actually lives and build
 WORKDIR /workspace/app
-RUN mvn clean package -DskipTests
+
+# Build with optimizations for memory-constrained environments
+RUN mvn clean package -DskipTests \
+    -Dmaven.compiler.fork=false \
+    -Dvaadin.productionMode=true
 
 # Step 2: Run stage with JRE 21
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-# Copy the compiled jar from the app's target directory
-COPY --from=build /workspace/app/target/*.jar app.jar
+# Copy the specific compiled jar (not the .original file)
+COPY --from=build /workspace/app/target/app-*.jar app.jar
+
+# Set environment variables for better JVM behavior on Render
+ENV JAVA_OPTS="-Xmx512m -Xms256m"
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT exec java $JAVA_OPTS -jar app.jar
