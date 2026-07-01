@@ -1,30 +1,21 @@
-FROM ghcr.io/jqlang/jq:latest AS jq-stage
+# Step 1: Use Maven + Java 17 as the build environment
+FROM maven:3.8.8-eclipse-temurin-17 AS build
+WORKDIR /app
 
-FROM eclipse-temurin:21-jdk AS build
-COPY --from=jq-stage /jq /usr/bin/jq
-# Test that jq works after copying
-RUN jq --version
+# Install Node.js (Required by Vaadin to compile frontend themes and styles)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodesource-repo && \
+    apt-get install -y nodejs
 
-ENV HOME=/app
-RUN mkdir -p $HOME
-WORKDIR $HOME
-COPY . $HOME
+# Copy all your project files into the container
+COPY . .
 
-# If you have a Vaadin Pro key, pass it as a secret with id "proKey":
-#
-#   $ docker build --secret id=proKey,src=$HOME/.vaadin/proKey .
-#
-# If you have a Vaadin Offline key, pass it as a secret with id "offlineKey":
-#
-#   $ docker build --secret id=offlineKey,src=$HOME/.vaadin/offlineKey .
+# Compile and package the Java jar file
+RUN mvn clean package -DskipTests
 
-RUN --mount=type=cache,target=/root/.m2 \
-    --mount=type=secret,id=proKey \
-    --mount=type=secret,id=offlineKey \
-    sh -c 'PRO_KEY=$(jq -r ".proKey // empty" /run/secrets/proKey 2>/dev/null || echo "") && \
-    OFFLINE_KEY=$(cat /run/secrets/offlineKey 2>/dev/null || echo "") && \
-    ./mvnw clean package -DskipTests -Dvaadin.proKey=${PRO_KEY} -Dvaadin.offlineKey=${OFFLINE_KEY}'
-
-FROM eclipse-temurin:21-jre-alpine
+# Step 2: Use a clean, lightweight Java runtime to run the app
+FROM eclipse-temurin:17-jre
+WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar", "--spring.profiles.active=prod"]
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
