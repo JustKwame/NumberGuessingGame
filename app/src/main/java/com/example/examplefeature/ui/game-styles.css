@@ -1,0 +1,51 @@
+.main-view-bg {
+    background-color: #c3c3c3 !important;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+.game-card {
+    background-color: #f1f1f1;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 40px !important;
+    width: 500px;
+    max-width: 90%;
+}
+
+.game-title {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 700;
+    margin-top: 0;
+    color: #000000;
+}
+
+.game-input {
+    width: 200px;
+}
+.game-input::part(value) {
+    text-align: center;
+}
+
+.game-submit-btn {
+    border: 2px solid #000000 !important;
+    background-color: transparent !important;
+    color: #000000 !important;
+    font-weight: 600 !important;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.game-submit-btn:hover {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.game-feedback {
+    font-weight: 600;
+    color: #ff0000;
+    margin-top: 15px;
+}
