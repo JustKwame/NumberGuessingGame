@@ -20,7 +20,7 @@ public final class MainLayout extends AppLayout {
 
     MainLayout() {
         setPrimarySection(Section.DRAWER);
-        addToDrawer(createApplicationHeader(), createApplicationDrawer(), createApplicationFooter());
+        //addToDrawer(createApplicationHeader(), createApplicationDrawer(), createApplicationFooter());
     }
 
     private Component createApplicationHeader() {
