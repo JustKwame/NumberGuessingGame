@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: NumberGuessingGame
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: PORT
+        value: 8080
