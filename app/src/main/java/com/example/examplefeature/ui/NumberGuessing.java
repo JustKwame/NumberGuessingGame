@@ -30,6 +30,7 @@ public class NumberGuessing {
             int distance = Math.abs(User_guess - Secret_Number);
 
 
+            /*Makes sure numbers are withing bound */
 
             if (distance == 1) {
                 return("You're close 🔥");
@@ -41,7 +42,12 @@ public class NumberGuessing {
             }
 
             else {
+                
+
+
                 return("You're cold 🥶");
+
+
             }
         }
 
@@ -52,6 +58,14 @@ public class NumberGuessing {
                return("You already guessed that! Try again.");
                 
             } 
+            // Make sure number are within bound
+            if (User_guess == 0){
+                return("Number out of bound, Try again ⚠️");
+            }
+
+            if (User_guess > 30){
+                return("Number out of bound, Try again ⚠️");
+            }
        
 
             if (User_guess == Secret_Number){

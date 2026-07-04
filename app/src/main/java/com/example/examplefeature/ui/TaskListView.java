@@ -1,16 +1,20 @@
 package com.example.examplefeature.ui;
-
+import com.vaadin.flow.component.UI;
+import com.vaadin.copilot.shaded.checkerframework.checker.guieffect.qual.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.JavaScript;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.component.dependency.StyleSheet;
 
 @Route(value = "")
 @StyleSheet("./styles/game-styles.css")
+@JavaScript("https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js")
+
 public class TaskListView extends VerticalLayout {
    NumberGuessing game = new NumberGuessing();
 
@@ -50,9 +54,16 @@ submitButton.addClickListener(event -> {
         AttemptsRemaining.setText(gameResponse);
 
         if (gameResponse.contains("You guessed the number")) {
-            AttemptsRemaining.getStyle().set("color", "#2e7d32"); // Green for winning!
-        } else if (gameResponse.contains("run out of attempts")) {
-            AttemptsRemaining.getStyle().set("color", "#d32f2f"); // Dark red for losing
+            AttemptsRemaining.getStyle().set("color", "#2e7d32");
+            UI.getCurrent().getPage().executeJs("confetti();");
+        // Green for winning!
+
+        } else if (gameResponse.contains("Number out of bound, Try again ⚠️")) {
+                AttemptsRemaining.getStyle().set("color", "#540b8f");
+
+        }else if (gameResponse.contains("run out of attempts")) {
+            AttemptsRemaining.getStyle().set("color", "#d32f2f"); 
+            // Dark red for losing
         } else {
             AttemptsRemaining.getStyle().set("color", "#ff9800"); // Orange/Amber for hints (Warm/Cold/Close)
         }
