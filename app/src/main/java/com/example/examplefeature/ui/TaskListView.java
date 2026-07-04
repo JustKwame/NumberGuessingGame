@@ -1,6 +1,5 @@
 package com.example.examplefeature.ui;
 import com.vaadin.flow.component.UI;
-import com.vaadin.copilot.shaded.checkerframework.checker.guieffect.qual.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.JavaScript;
