@@ -21,8 +21,8 @@ WORKDIR /app
 COPY --from=build /workspace/app/target/app-*.jar app.jar
 
 # Set environment variables for better JVM behavior on Render
-ENV JAVA_OPTS="-Xmx512m -Xms256m"
+ENV JAVA_OPTS="-Xmx512m -Xms256m" PORT=8080
 
 EXPOSE 8080
 
-ENTRYPOINT exec java $JAVA_OPTS -jar app.jar
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dserver.port=${PORT:-8080} -jar app.jar"]
