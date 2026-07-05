@@ -58,6 +58,7 @@ public class NumberGuessing {
                return("You already guessed that! Try again.");
                 
             } 
+
             // Make sure number are within bound
             if (User_guess == 0){
                 return("Number out of bound, Try again ⚠️");
@@ -66,8 +67,12 @@ public class NumberGuessing {
             if (User_guess > 30){
                 return("Number out of bound, Try again ⚠️");
             }
-       
 
+            if (User_guess < 0){
+                return("Number out of bound, Try again ⚠️ ");
+            }
+       
+            // Winning and Loosing Game Logic
             if (User_guess == Secret_Number){
                 Hardcoded_Logic();
                 return("You guessed the number!!! 💯 ");
