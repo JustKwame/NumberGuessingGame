@@ -52,6 +52,7 @@ public class NumberGuessing {
         }
 
         public String Checks(int pendingGuess){
+            // Storage checks 
             this.User_guess = pendingGuess;
 
             if (storage.contains(User_guess)){
