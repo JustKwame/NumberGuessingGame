@@ -1,4 +1,5 @@
 package com.example.examplefeature.ui;
+import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -34,6 +35,7 @@ public class TaskListView extends VerticalLayout {
         Paragraph instructions = new Paragraph("Guess a number between 1 - 30:"); 
         Paragraph AttemptsRemaining = new Paragraph("Attempts Remaining: " + game.counter);
         AttemptsRemaining.addClassName("game-feedback");
+        AttemptsRemaining.setWhiteSpace(HasText.WhiteSpace.PRE_LINE); 
 
         IntegerField Userinput_Integers = new IntegerField();
         Userinput_Integers.setPlaceholder("Enter a number...");
@@ -63,7 +65,24 @@ submitButton.addClickListener(event -> {
         }else if (gameResponse.contains("run out of attempts")) {
             AttemptsRemaining.getStyle().set("color", "#d32f2f"); 
             // Dark red for losing
-        } else {
+        
+        } else if (gameResponse.contains("\"You already guessed that! Try again.")){
+            AttemptsRemaining.getStyle().set("color", "#40E0D0"); 
+        }
+
+        else if (gameResponse.contains("Hint: You're cold 🥶")) {
+            AttemptsRemaining.getStyle().set("color", "#4169E1"); 
+            
+        } 
+        else if (gameResponse.contains("Hint: You're warm ☕️")){
+            AttemptsRemaining.getStyle().set("color", "#ff9800"); 
+
+        }
+
+        else if (gameResponse.contains("Hint: You're close 🔥")){
+                AttemptsRemaining.getStyle().set("color", "#FF6347");
+        }
+        else {
             AttemptsRemaining.getStyle().set("color", "#ff9800"); // Orange/Amber for hints (Warm/Cold/Close)
         }
 

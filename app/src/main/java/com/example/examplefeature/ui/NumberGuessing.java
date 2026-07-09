@@ -56,7 +56,8 @@ public class NumberGuessing {
             this.User_guess = pendingGuess;
 
             if (storage.contains(User_guess)){
-               return("You already guessed that! Try again.");
+               return("You already guessed that! Try again. \n" + "        Hint: " + GameFeedbackHints());
+               
                 
             } 
 
